@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Django Girls blog</title>
+        <title>movie reviews</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -19,11 +19,22 @@ img{
   width:100%;
   height:70%;
 }
+.card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 4;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 5;
+  }
+}
+body{
+background-color:black;
+}
 </style>
     </head>
     <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">moviews</a>
+  <a class="navbar-brand" href="#">OPINIONES</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -62,20 +73,24 @@ img{
         </div>
 
 
-
+<div >
 <div class="card-deck pad">
 {% for posts in posts %}
+
   <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap"  >
+    <img class="card-img-top" src="{{ posts.add_image_url }}" alt="Card image cap"  >
     <div class="card-body">
       <h5 class="card-title">{{ posts.title }}</h5>
       <p class="card-text">{{ posts.text }}</p>
       <p class="card-text"><small class="text-muted"> {{ posts.published_date }}</small></p>
     </div>
   </div>
+
+
 {% endfor %}
 </div>
 
+</div>
 <!--
         <div>
 {% for posts in posts %}
