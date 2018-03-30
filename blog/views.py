@@ -29,7 +29,7 @@ def post_sort(request,q):
     if q=='4':
         post=post.filter(published_date__lte=timezone.now()).order_by('published_date').reverse()
 
-        
+
     return render(request, 'blog/post_list.html', {'post': post})
 
 
