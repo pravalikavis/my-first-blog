@@ -14,6 +14,7 @@ from django.db.models import Avg
 from django.contrib.auth import logout
 
 def logout_view(request):
+
     logout(request)
     return render(request,'register/logged_out.html')
 def post_sort(request,q):
@@ -46,11 +47,23 @@ def post_list(request):
     return render(request, 'blog/post_list.html', {'post': post,})
 
 def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    comment = Comment.objects.filter(post=post).aggregate(Avg('rating'))
-    return render(request, 'blog/post_detail.html', {'post': post,'comment':comment,})
+    query = request.GET.get("q")
+
+    if query:
+
+        post = Post.objects.filter(title__icontains=query)
+        return render(request, 'blog/post_list.html', {'post': post, })
+    else:
+        post = get_object_or_404(Post, pk=pk)
+        comment = Comment.objects.filter(post=post).aggregate(Avg('rating'))
+        return render(request, 'blog/post_detail.html', {'post': post,'comment':comment,})
 
 def post_new(request):
+    query = request.GET.get("q")
+
+    if query:
+        post = Post.objects.filter(title__icontains=query)
+        return render(request, 'blog/post_list.html', {'post': post, })
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
@@ -63,6 +76,11 @@ def post_new(request):
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 def post_edit(request, pk):
+    query = request.GET.get("q")
+
+    if query:
+        post = Post.objects.filter(title__icontains=query)
+        return render(request, 'blog/post_list.html', {'post': post, })
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
@@ -77,6 +95,11 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 def register(request):
+    query = request.GET.get("q")
+
+    if query:
+        post = Post.objects.filter(title__icontains=query)
+        return render(request, 'blog/post_list.html', {'post': post, })
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -97,6 +120,11 @@ def register(request):
     return render(request, 'blog/register.html', {'form' : form})
 
 def add_comment_to_post(request, pk):
+    query = request.GET.get("q")
+
+    if query:
+        post = Post.objects.filter(title__icontains=query)
+        return render(request, 'blog/post_list.html', {'post': post, })
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
